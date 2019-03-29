@@ -50,9 +50,12 @@ services:
     ports:
       - "10009:10009"
       - "9735:9735"
-   
+
   thunder:
     image: pokerdan1/thunder-wallet
+    volumes:
+      - lnd/tls.cert:/go/src/app/secrets/
+      - lnd/data/chain/bitcoin/testnet/admin.macaroon:/go/src/app/secrets/
     environment:
       - NODE=lnd:10009
     ports:
