@@ -2,10 +2,12 @@ version: '3.3'
 services:
   bitcoind:
       image: ruimarinho/bitcoin-core
+      container_name: bitcoind
+      restart: always
       volumes:
         - bitcoind:/home/bitcoin/.bitcoin
         # The bitcoin rpc pass is here
-        - bitcoind.conf:/bitcoind.conf
+        - ./bitcoind.conf:/bitcoind.conf
       command:
         bitcoind
         -conf=/bitcoind.conf
@@ -19,6 +21,8 @@ services:
 
   lnd:
     image: pokerdan1/lnd
+    container_name: lnd
+    restart: always
     depends_on:
       - bitcoind
     entrypoint: ["./start-lnd.sh"]
@@ -39,6 +43,7 @@ services:
       --autopilot.active
       --autopilot.allocation=0.3
       --externalip=104.248.159.81
+      --noseedbackup
     ports:
       - "10009:1009"
       - "9735:9735"
