@@ -45,7 +45,7 @@ services:
       --externalip=104.248.159.81
       --noseedbackup
     ports:
-      - "10009:1009"
+      - "10009:10009"
       - "9735:9735"
 
 volumes:
