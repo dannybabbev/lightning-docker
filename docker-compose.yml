@@ -1,0 +1,48 @@
+version: '3.3'
+services:
+  bitcoind:
+      image: ruimarinho/bitcoin-core
+      volumes:
+        - bitcoind:/home/bitcoin/.bitcoin
+        # The bitcoin rpc pass is here
+        - bitcoind.conf:/bitcoind.conf
+      command:
+        bitcoind
+        -conf=/bitcoind.conf
+        -server
+        -testnet
+        -rpcallowip=0.0.0.0/0
+        -debug=0
+        -zmqpubrawblock=tcp://*:28332
+        -zmqpubrawtx=tcp://*:28333
+        -txindex=1
+
+  lnd:
+    image: pokerdan1/lnd
+    depends_on:
+      - bitcoind
+    entrypoint: ["./start-lnd.sh"]
+    volumes:
+      - lnd:/root/.lnd
+    environment:
+      - RPCHOST=bitcoind
+      - NETWORK=testnet
+      - CHAIN=bitcoin
+      - DEBUG=info
+      - BITCOIN_NODE=bitcoind
+      - ZMQ_PUBRAWBLOCK=tcp://bitcoind:28332
+      - ZMQ_PUBRAWTX=tcp://bitcoind:28333
+    env_file:
+      - secrets.env
+    command:
+      --alias=fair.poker
+      --autopilot.active
+      --autopilot.allocation=0.3
+      --externalip=104.248.159.81
+    ports:
+      - "10009:1009"
+      - "9735:9735"
+
+volumes:
+  bitcoind:
+  lnd:
