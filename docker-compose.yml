@@ -46,20 +46,21 @@ services:
       --tlsextraip=206.189.33.20
       --noseedbackup
     expose:
-     - "10009"
+      - "10009"
     ports:
       - "10009:10009"
       - "9735:9735"
 
   thunder:
     image: pokerdan1/thunder-wallet
+    restart: always
+    container_name: thunder
     volumes:
-      - lnd/tls.cert:/go/src/app/secrets/
-      - lnd/data/chain/bitcoin/testnet/admin.macaroon:/go/src/app/secrets/
+      - lnd:/go/src/app/secret/
     environment:
       - NODE=lnd:10009
     ports:
-      - "8080:80"
+      - "80:8080"
 
 volumes:
   bitcoind:
