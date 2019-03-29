@@ -43,10 +43,20 @@ services:
       --autopilot.active
       --autopilot.allocation=0.3
       --externalip=206.189.33.20
+      --tlsextraip=206.189.33.20
       --noseedbackup
+    expose:
+     - "10009"
     ports:
       - "10009:10009"
       - "9735:9735"
+   
+  thunder:
+    image: pokerdan1/thunder-wallet
+    environment:
+      - NODE=lnd:10009
+    ports:
+      - "8080:80"
 
 volumes:
   bitcoind:
