@@ -42,7 +42,7 @@ services:
       --alias=lightning.hack
       --autopilot.active
       --autopilot.allocation=0.3
-      --externalip=104.248.159.81
+      --externalip=206.189.33.20
       --noseedbackup
     ports:
       - "10009:10009"
