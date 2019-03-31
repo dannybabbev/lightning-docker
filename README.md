@@ -9,5 +9,5 @@ docker compose up
 
 You can build the LND image yourself by running 
 ```
-cd lnd && docker build -t lnd
+cd lnd && docker build -t lnd .
 ```
